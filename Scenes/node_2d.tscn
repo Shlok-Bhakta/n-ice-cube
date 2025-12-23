@@ -1,0 +1,89 @@
+[gd_scene load_steps=6 format=3 uid="uid://kdmb4vuhof70"]
+
+[ext_resource type="Texture2D" uid="uid://cdkylfosjptn4" path="res://OIP.jpg" id="1_1erje"]
+[ext_resource type="Texture2D" uid="uid://0cubncd60hpa" path="res://Cube.png" id="2_m22wp"]
+
+[sub_resource type="GDScript" id="GDScript_3c0f4"]
+resource_name = "Player"
+script/source = "extends CharacterBody2D
+
+const MAX_SPEED = 300.0
+const ICE_ACCEL = 400.0
+const ICE_FRICTION = 100.0
+const JUMP_VELOCITY = -400.0
+
+func _physics_process(delta: float) -> void:
+	# Gravity
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Jump (matches your Input Map)
+	if Input.is_action_just_pressed(\"UP\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Horizontal input
+	var move_dir := 0
+	if Input.is_action_pressed(\"LEFT\"):
+		move_dir = -1
+	elif Input.is_action_pressed(\"RIGHT\"):
+		move_dir = 1
+
+	# Ice movement
+	if move_dir != 0:
+		velocity.x = move_toward(
+			velocity.x,
+			move_dir * MAX_SPEED,
+			ICE_ACCEL * delta
+		)
+	else:
+		velocity.x = move_toward(
+			velocity.x,
+			0,
+			ICE_FRICTION * delta
+		)
+
+	move_and_slide()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_emlxi"]
+size = Vector2(36, 42)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fbab0"]
+size = Vector2(1344, 100)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -148.0
+offset_top = -90.0
+offset_right = 1185.0
+offset_bottom = 666.0
+texture = ExtResource("1_1erje")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(-149, 569)
+script = SubResource("GDScript_3c0f4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(253, -479)
+shape = SubResource("RectangleShape2D_emlxi")
+
+[node name="TextureRect" type="TextureRect" parent="CharacterBody2D"]
+offset_left = 233.0
+offset_top = -497.0
+offset_right = 273.0
+offset_bottom = -457.0
+texture = ExtResource("2_m22wp")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(521, 620.5)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -12.5)
+shape = SubResource("RectangleShape2D_fbab0")
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+offset_left = -666.0
+offset_top = -60.5
+offset_right = 674.0
+offset_bottom = 41.5
