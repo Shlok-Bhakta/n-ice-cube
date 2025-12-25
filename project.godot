@@ -15,6 +15,11 @@ run/main_scene="uid://kdmb4vuhof70"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[global_group]
+
+can_interact_with_water=""
+player=""
+
 [input]
 
 UP={

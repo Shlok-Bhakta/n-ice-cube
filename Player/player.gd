@@ -6,6 +6,11 @@ extends CharacterBody2D
 @export var gravity: int = 4000
 @export var jump_velocity: int = -1200
 
+func _ready() -> void:
+	add_to_group("can_interact_with_water")
+	add_to_group("player")
+
+
 func _physics_process(delta: float) -> void:
 	# Moving our boi Left and Right
 	var direction := Input.get_axis("LEFT", "RIGHT")

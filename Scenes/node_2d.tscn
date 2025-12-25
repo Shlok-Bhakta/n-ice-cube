@@ -1,16 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://kdmb4vuhof70"]
+[gd_scene load_steps=15 format=3 uid="uid://kdmb4vuhof70"]
 
 [ext_resource type="Texture2D" uid="uid://cdkylfosjptn4" path="res://OIP.jpg" id="1_1erje"]
 [ext_resource type="Texture2D" uid="uid://0cubncd60hpa" path="res://Cube.png" id="2_m22wp"]
+[ext_resource type="Script" uid="uid://wsn35dvx83pc" path="res://water.gd" id="3_hh5uf"]
 
 [sub_resource type="GDScript" id="GDScript_3c0f4"]
 resource_name = "Player"
 script/source = "extends CharacterBody2D
 
-const MAX_SPEED = 300.0
-const ICE_ACCEL = 400.0
+var MAX_SPEED = 300.0
+var ICE_ACCEL = 400.0
 const ICE_FRICTION = 100.0
 const JUMP_VELOCITY = -400.0
+
+func _ready() -> void:
+	add_to_group(\"can_interact_with_water\")
 
 func _physics_process(delta: float) -> void:
 	# Gravity
@@ -41,26 +45,82 @@ func _physics_process(delta: float) -> void:
 			0,
 			ICE_FRICTION * delta
 		)
-
 	move_and_slide()
+
+func _on_speed_power_body_entered(body: Node2D) -> void:
+	MAX_SPEED = 600
+	ICE_ACCEL = 800
+	print(MAX_SPEED)
+
+
+func _on_speed_power_body_exited(body: Node2D) -> void:
+	MAX_SPEED = 300
+	ICE_ACCEL = 400
+	print(MAX_SPEED)
+
+func _on_slow_powder_body_entered(body: Node2D) -> void:
+	MAX_SPEED = 200
+	ICE_ACCEL = 150
+	print(MAX_SPEED)
+
+func _on_slow_powder_body_exited(body: Node2D) -> void:
+	MAX_SPEED = 300
+	ICE_ACCEL = 400
+	print(MAX_SPEED)
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_emlxi"]
 size = Vector2(36, 42)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tx0tn"]
+size = Vector2(275, 44)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fbab0"]
-size = Vector2(1344, 100)
+size = Vector2(561, 100)
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wjtap"]
+size = Vector2(514.5, 100)
 
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_left = -148.0
-offset_top = -90.0
-offset_right = 1185.0
-offset_bottom = 666.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hh5uf"]
+size = Vector2(227.5, 25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v1qfn"]
+size = Vector2(157, 755.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6whob"]
+size = Vector2(45, 748)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u7krg"]
+size = Vector2(195, 29)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v7gqg"]
+size = Vector2(269, 60)
+
+[sub_resource type="GDScript" id="GDScript_hh5uf"]
+script/source = "extends CollisionShape2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="Level" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="." groups=["can_interact_with_water"]]
+z_index = -2
+offset_left = -134.0
+offset_top = -93.0
+offset_right = 1205.0
+offset_bottom = 663.0
 texture = ExtResource("1_1erje")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." groups=["can_interact_with_water"]]
 position = Vector2(-149, 569)
 script = SubResource("GDScript_3c0f4")
 
@@ -75,15 +135,94 @@ offset_right = 273.0
 offset_bottom = -457.0
 texture = ExtResource("2_m22wp")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Platform" type="StaticBody2D" parent="."]
 position = Vector2(521, 620.5)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, -12.5)
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Platform"]
+position = Vector2(26, 21.5)
+shape = SubResource("RectangleShape2D_tx0tn")
+
+[node name="ColorRect3" type="ColorRect" parent="Platform"]
+offset_left = -109.0
+offset_top = 0.5
+offset_right = 162.0
+offset_bottom = 42.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
+position = Vector2(-391.5, -12.5)
 shape = SubResource("RectangleShape2D_fbab0")
 
-[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+[node name="ColorRect" type="ColorRect" parent="Platform"]
 offset_left = -666.0
 offset_top = -60.5
-offset_right = 674.0
+offset_right = -109.0
 offset_bottom = 41.5
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Platform"]
+position = Vector2(420, -7.5)
+shape = SubResource("RectangleShape2D_wjtap")
+
+[node name="ColorRect2" type="ColorRect" parent="Platform"]
+offset_left = 163.0
+offset_top = -59.5
+offset_right = 678.0
+offset_bottom = 43.5
+
+[node name="Speed_Power" type="Area2D" parent="."]
+position = Vector2(824, 607)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Speed_Power"]
+position = Vector2(20, -45.5)
+shape = SubResource("RectangleShape2D_hh5uf")
+
+[node name="ColorRect" type="ColorRect" parent="Speed_Power"]
+offset_left = -94.0
+offset_top = -60.0
+offset_right = 133.0
+offset_bottom = -32.0
+color = Color(1, 0.29411766, 1, 1)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Left" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-77.5, 282)
+shape = SubResource("RectangleShape2D_v1qfn")
+
+[node name="Right" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1177.5, 291)
+shape = SubResource("RectangleShape2D_6whob")
+
+[node name="Slow_Powder" type="Area2D" parent="."]
+position = Vector2(263, 562)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Slow_Powder"]
+position = Vector2(6, 2)
+shape = SubResource("RectangleShape2D_u7krg")
+
+[node name="ColorRect" type="ColorRect" parent="Slow_Powder"]
+offset_left = -91.0
+offset_top = -13.0
+offset_right = 108.0
+offset_bottom = 14.0
+color = Color(0.5759824, 0.9911445, 0.7028607, 1)
+
+[node name="water" type="Node2D" parent="." groups=["player"]]
+z_index = -1
+position = Vector2(413, 558.035)
+script = ExtResource("3_hh5uf")
+water_size = Vector2(270, 62)
+metadata/_custom_type_script = "uid://wsn35dvx83pc"
+
+[node name="Area2D" type="Area2D" parent="water"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="water/Area2D"]
+position = Vector2(134.5, 30.965027)
+shape = SubResource("RectangleShape2D_v7gqg")
+script = SubResource("GDScript_hh5uf")
+
+[connection signal="body_entered" from="Speed_Power" to="CharacterBody2D" method="_on_speed_power_body_entered"]
+[connection signal="body_exited" from="Speed_Power" to="CharacterBody2D" method="_on_speed_power_body_exited"]
+[connection signal="body_entered" from="Slow_Powder" to="CharacterBody2D" method="_on_slow_powder_body_entered"]
+[connection signal="body_exited" from="Slow_Powder" to="CharacterBody2D" method="_on_slow_powder_body_exited"]
+[connection signal="body_entered" from="water/Area2D" to="water" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="water/Area2D" to="water" method="_on_area_2d_body_exited"]
