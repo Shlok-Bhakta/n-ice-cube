@@ -1,0 +1,79 @@
+[gd_scene load_steps=12 format=3 uid="uid://cw0pksenq0dcs"]
+
+[ext_resource type="Texture2D" uid="uid://bxgce4xrn0tjf" path="res://Player/Still/Still1.png" id="1_j23h2"]
+[ext_resource type="Texture2D" uid="uid://ckx7km3yxlca2" path="res://Player/Still/Still2.png" id="2_0j2ni"]
+[ext_resource type="Texture2D" uid="uid://xmqlxy067scs" path="res://Player/Jump/Jump1.png" id="3_v0k0e"]
+[ext_resource type="Texture2D" uid="uid://h02u20wpi04u" path="res://Player/Jump/Jump2.png" id="4_5wa8t"]
+[ext_resource type="Texture2D" uid="uid://olja4umwjge4" path="res://Player/LR/Left1.png" id="5_p7tob"]
+[ext_resource type="Texture2D" uid="uid://bcvhhjmqr2x57" path="res://Player/LR/Left2.png" id="6_dm7nj"]
+[ext_resource type="Texture2D" uid="uid://cxjfiiolbklm7" path="res://Player/LR/Right1.png" id="7_3mea3"]
+[ext_resource type="Texture2D" uid="uid://djh08s0j1vccs" path="res://Player/LR/Right2.png" id="8_7v5gs"]
+[ext_resource type="Script" uid="uid://ufswu4nmmww0" path="res://Player/player.gd" id="9_8sa4y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j23h2"]
+size = Vector2(28, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3nb2p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_j23h2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_0j2ni")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_v0k0e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5wa8t")
+}],
+"loop": false,
+"name": &"Jump",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_p7tob")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_dm7nj")
+}],
+"loop": true,
+"name": &"Left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_3mea3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_7v5gs")
+}],
+"loop": true,
+"name": &"Right",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+floor_block_on_wall = false
+floor_max_angle = 0.040142573
+script = ExtResource("9_8sa4y")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_j23h2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_3nb2p")
+animation = &"Jump"
+frame = 1
+frame_progress = 1.0
