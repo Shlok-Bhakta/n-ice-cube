@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://kdmb4vuhof70"]
+[gd_scene load_steps=16 format=3 uid="uid://kdmb4vuhof70"]
 
 [ext_resource type="Texture2D" uid="uid://cdkylfosjptn4" path="res://OIP.jpg" id="1_1erje"]
 [ext_resource type="Texture2D" uid="uid://0cubncd60hpa" path="res://Cube.png" id="2_m22wp"]
 [ext_resource type="Script" uid="uid://wsn35dvx83pc" path="res://water.gd" id="3_hh5uf"]
+[ext_resource type="PackedScene" uid="uid://dvej3pm8r4ctm" path="res://BBQ.tscn" id="4_6whob"]
 
 [sub_resource type="GDScript" id="GDScript_3c0f4"]
 resource_name = "Player"
@@ -94,7 +95,7 @@ size = Vector2(45, 748)
 size = Vector2(195, 29)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v7gqg"]
-size = Vector2(269, 60)
+size = Vector2(270, 62)
 
 [sub_resource type="GDScript" id="GDScript_hh5uf"]
 script/source = "extends CollisionShape2D
@@ -120,19 +121,20 @@ offset_right = 1205.0
 offset_bottom = 663.0
 texture = ExtResource("1_1erje")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." groups=["can_interact_with_water"]]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." groups=["can_interact_with_water", "player"]]
 position = Vector2(-149, 569)
 script = SubResource("GDScript_3c0f4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(253, -479)
+z_index = -1
+position = Vector2(245, -33)
 shape = SubResource("RectangleShape2D_emlxi")
 
 [node name="TextureRect" type="TextureRect" parent="CharacterBody2D"]
-offset_left = 233.0
-offset_top = -497.0
-offset_right = 273.0
-offset_bottom = -457.0
+offset_left = 225.0
+offset_top = -52.0
+offset_right = 265.0
+offset_bottom = -12.0
 texture = ExtResource("2_m22wp")
 
 [node name="Platform" type="StaticBody2D" parent="."]
@@ -208,7 +210,7 @@ color = Color(0.5759824, 0.9911445, 0.7028607, 1)
 
 [node name="water" type="Node2D" parent="." groups=["player"]]
 z_index = -1
-position = Vector2(413, 558.035)
+position = Vector2(-149, 558.035)
 script = ExtResource("3_hh5uf")
 water_size = Vector2(270, 62)
 metadata/_custom_type_script = "uid://wsn35dvx83pc"
@@ -216,9 +218,13 @@ metadata/_custom_type_script = "uid://wsn35dvx83pc"
 [node name="Area2D" type="Area2D" parent="water"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="water/Area2D"]
-position = Vector2(134.5, 30.965027)
+position = Vector2(135, 31)
 shape = SubResource("RectangleShape2D_v7gqg")
 script = SubResource("GDScript_hh5uf")
+
+[node name="BBQ" parent="." instance=ExtResource("4_6whob")]
+z_index = -1
+position = Vector2(957, 395)
 
 [connection signal="body_entered" from="Speed_Power" to="CharacterBody2D" method="_on_speed_power_body_entered"]
 [connection signal="body_exited" from="Speed_Power" to="CharacterBody2D" method="_on_speed_power_body_exited"]

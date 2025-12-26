@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cdkylfosjptn4"
-path="res://.godot/imported/OIP.jpg-4c33fd4baa18e7313ecd31ebec956739.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://OIP.jpg"
-dest_files=["res://.godot/imported/OIP.jpg-4c33fd4baa18e7313ecd31ebec956739.ctex"]
 
 [params]
 

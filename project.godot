@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="n-ice-cube"
-run/main_scene="uid://kdmb4vuhof70"
+run/main_scene="uid://us4q0w4vm1tp"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
